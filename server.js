@@ -37,12 +37,25 @@ app.post("/api/deepl", async (req, res) => {
     };
 
     if (action === "glossaries") {
-      url = baseUrl + "/v2/glossaries";
-    } else if (action === "entries") {
+      url = baseUrl + "/v3/glossaries";
+    } else if (action === "details") {
       if (!glossaryId) {
         return res.status(400).json({ error: "Glossary ID fehlt." });
       }
-      url = baseUrl + "/v2/glossaries/" + encodeURIComponent(glossaryId) + "/entries";
+      url = baseUrl + "/v3/glossaries/" + encodeURIComponent(glossaryId);
+    } else if (action === "entries") {
+      if (!glossaryId || !sourceLang || !targetLang) {
+        return res.status(400).json({
+          error: "Glossary ID, source_lang und target_lang werden für v3-Entries benötigt."
+        });
+      }
+
+      const params = new URLSearchParams({
+        source_lang: sourceLang.toLowerCase(),
+        target_lang: targetLang.toLowerCase()
+      });
+
+      url = baseUrl + "/v3/glossaries/" + encodeURIComponent(glossaryId) + "/entries?" + params.toString();
       options.headers.Accept = "text/tab-separated-values";
     } else if (action === "translateWithoutGlossary" || action === "translateWithGlossary") {
       if (!text || !sourceLang || !targetLang) {
@@ -53,8 +66,8 @@ app.post("/api/deepl", async (req, res) => {
 
       const body = new URLSearchParams({
         text,
-        source_lang: sourceLang,
-        target_lang: targetLang
+        source_lang: sourceLang.toUpperCase(),
+        target_lang: targetLang.toUpperCase()
       });
 
       if (action === "translateWithGlossary") {
@@ -95,5 +108,5 @@ app.post("/api/deepl", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`DeepL Glossary Checker läuft auf Port ${PORT}`);
+  console.log(`DeepL Glossary Checker v3 läuft auf Port ${PORT}`);
 });
