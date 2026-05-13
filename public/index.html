@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <title>DeepL Glossar Checker</title>
+  <title>DeepL Glossar Checker v3</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -52,11 +52,11 @@
   </style>
 </head>
 <body>
-  <h1>DeepL Glossar Checker</h1>
+  <h1>DeepL Glossar Checker v3</h1>
 
   <div class="hint">
-    Der API-Key wird nur für diesen Test an den lokalen/temporären Server gesendet.
-    Er wird nicht gespeichert.
+    Glossare werden über die DeepL-v3-Endpunkte geprüft. Die eigentliche Textübersetzung läuft weiterhin über
+    <code>/v2/translate</code>, weil dort die <code>glossary_id</code> für Übersetzungen mitgegeben wird.
   </div>
 
   <label>API-Typ</label>
@@ -85,10 +85,11 @@
   <label>Testtext</label>
   <textarea id="text" rows="5">Unser Begriff kommt hier im Text vor.</textarea>
 
-  <button onclick="callDeepL('glossaries')">1. Glossare abrufen</button>
-  <button onclick="callDeepL('entries')">2. Glossar-Einträge abrufen</button>
-  <button onclick="callDeepL('translateWithoutGlossary')">3. Ohne Glossar übersetzen</button>
-  <button onclick="callDeepL('translateWithGlossary')">4. Mit Glossar übersetzen</button>
+  <button onclick="callDeepL('glossaries')">1. Glossare abrufen v3</button>
+  <button onclick="callDeepL('details')">2. Glossar-Details abrufen v3</button>
+  <button onclick="callDeepL('entries')">3. Glossar-Einträge für Source/Target abrufen v3</button>
+  <button onclick="callDeepL('translateWithoutGlossary')">4. Ohne Glossar übersetzen</button>
+  <button onclick="callDeepL('translateWithGlossary')">5. Mit Glossar übersetzen</button>
 
   <h2>Ausgabe</h2>
   <pre id="output">Noch keine Anfrage gesendet.</pre>
